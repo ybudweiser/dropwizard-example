@@ -1,0 +1,92 @@
+plugins {
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
+    id 'java'
+    id 'jacoco'
+    id 'checkstyle'
+}
+repositories {
+
+    jcenter()
+
+}
+test {
+    useJUnitPlatform()
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+
+shadowJar {
+    mergeServiceFiles()
+    manifest {
+        attributes 'Main-Class': 'com.example.helloworld.HelloWorldApplication'
+    }
+}
+jacocoTestReport {
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.destination file("${buildDir}/reports/jacocoHtml")
+    }
+}
+tasks.withType(Checkstyle) {
+    reports {
+        xml.enabled false
+        html.enabled true
+    }
+}
+// In this section you declare the dependencies for your production and test code
+dependencies {
+    implementation(platform("io.dropwizard:dropwizard-bom:1.3.16"))
+    implementation("io.dropwizard:dropwizard-core")
+    implementation("io.dropwizard:dropwizard-auth")
+    implementation("io.dropwizard:dropwizard-assets")
+    implementation("io.dropwizard:dropwizard-http2")
+    implementation("io.dropwizard:dropwizard-hibernate")
+    implementation("io.dropwizard:dropwizard-migrations")
+    implementation("io.dropwizard:dropwizard-views-freemarker")
+    implementation("io.dropwizard:dropwizard-views-mustache")
+    implementation("io.dropwizard:dropwizard-metrics-graphite")
+    implementation("com.h2database:h2")
+    testImplementation("io.dropwizard:dropwizard-testing")
+    testImplementation("org.mockito:mockito-core")
+    testImplementation("org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-inmemory"){
+        exclude group: 'javax.servlet', module: 'javax.servlet-api'
+        exclude group: 'junit'
+    }
+    testImplementation("org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-grizzly2"){
+        exclude group: 'javax.servlet', module: 'javax.servlet-api'
+        exclude group: 'junit'
+    }
+    testImplementation('org.junit.jupiter:junit-jupiter-api:5.4.2')
+    testRuntime('org.junit.jupiter:junit-jupiter-engine:5.4.2')
+}
+
+configurations.all {
+    resolutionStrategy {
+        // fail eagerly on version conflict (includes transitive dependencies)
+        // e.g. multiple different versions of the same dependency (group and name are equal)
+        failOnVersionConflict()
+
+        // prefer modules that are part of this build (multi-project or composite build) over external modules
+        preferProjectModules()
+
+
+        // cache dynamic versions for 10 minutes
+        cacheDynamicVersionsFor 10*60, 'seconds'
+        // don't cache changing modules at all
+        cacheChangingModulesFor 0, 'seconds'
+    }
+}
