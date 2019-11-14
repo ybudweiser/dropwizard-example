@@ -2,6 +2,7 @@ package com.example.helloworld.resources;
 
 import io.dropwizard.views.View;
 
+import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -9,6 +10,12 @@ import java.nio.charset.StandardCharsets;
 
 @Path("/views")
 public class ViewResource {
+
+    @Inject
+    public ViewResource(){
+
+    }
+
     @GET
     @Produces("text/html;charset=UTF-8")
     @Path("/utf8.ftl")

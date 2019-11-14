@@ -8,6 +8,7 @@ import io.dropwizard.jersey.params.DateTimeParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -27,6 +28,7 @@ public class HelloWorldResource {
     private final Template template;
     private final AtomicLong counter;
 
+    @Inject
     public HelloWorldResource(Template template) {
         this.template = template;
         this.counter = new AtomicLong();

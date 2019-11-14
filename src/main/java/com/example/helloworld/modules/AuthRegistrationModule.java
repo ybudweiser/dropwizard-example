@@ -12,7 +12,7 @@ import io.dropwizard.auth.basic.BasicCredentialAuthFilter;
 import javax.inject.Singleton;
 
 @Module
-public class AuthModule {
+public class AuthRegistrationModule {
 
     @Singleton
     @Provides

@@ -6,6 +6,7 @@ import com.example.helloworld.views.PersonView;
 import io.dropwizard.hibernate.UnitOfWork;
 import io.dropwizard.jersey.params.LongParam;
 
+import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.Path;
@@ -19,6 +20,7 @@ public class PersonResource {
 
     private final PersonDAO peopleDAO;
 
+    @Inject
     public PersonResource(PersonDAO peopleDAO) {
         this.peopleDAO = peopleDAO;
     }

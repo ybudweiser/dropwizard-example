@@ -4,6 +4,7 @@ import com.example.helloworld.core.Person;
 import com.example.helloworld.db.PersonDAO;
 import io.dropwizard.hibernate.UnitOfWork;
 
+import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -17,6 +18,7 @@ public class PeopleResource {
 
     private final PersonDAO peopleDAO;
 
+    @Inject
     public PeopleResource(PersonDAO peopleDAO) {
         this.peopleDAO = peopleDAO;
     }

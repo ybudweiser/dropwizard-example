@@ -2,3 +2,6 @@
 .idea/
 build/
 dropwizard-example.iml
+target/
+out/
+logs/

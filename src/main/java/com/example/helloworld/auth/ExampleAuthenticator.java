@@ -7,11 +7,16 @@ import io.dropwizard.auth.AuthenticationException;
 import io.dropwizard.auth.Authenticator;
 import io.dropwizard.auth.basic.BasicCredentials;
 
+import javax.inject.Inject;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
 public class ExampleAuthenticator implements Authenticator<BasicCredentials, User> {
+
+    @Inject
+    public ExampleAuthenticator(){}
+
     /**
      * Valid users with mapping user -> roles
      */

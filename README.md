@@ -4,6 +4,8 @@ This is a fork of the original [Dropwizard Example](https://github.com/dropwizar
 
 It includes the following modifications
 * Gradle instead of maven
+* Dagger 2 for DI
+* lombok(install the intelij plugin!)
 
 The Dropwizard example application was developed to, as its name implies, provide examples of some of the features
 present in Dropwizard.

@@ -1,8 +1,11 @@
 package com.example.helloworld.core;
 
+import lombok.Getter;
+
 import java.security.Principal;
 import java.util.Set;
 
+@Getter
 public class User implements Principal {
     private final String name;
 
@@ -18,15 +21,9 @@ public class User implements Principal {
         this.roles = roles;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public int getId() {
         return (int) (Math.random() * 100);
     }
 
-    public Set<String> getRoles() {
-        return roles;
-    }
+
 }
