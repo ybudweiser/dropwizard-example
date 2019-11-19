@@ -2,26 +2,29 @@ package com.example.helloworld.db;
 
 import com.example.helloworld.core.Person;
 import io.dropwizard.testing.junit.DAOTestRule;
+import io.dropwizard.testing.junit5.DAOTestExtension;
+import io.dropwizard.testing.junit5.DropwizardExtensionsSupport;
 import org.hibernate.exception.ConstraintViolationException;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
+@ExtendWith(DropwizardExtensionsSupport.class)
 public class PersonDAOTest {
 
-    @Rule
-    public DAOTestRule daoTestRule = DAOTestRule.newBuilder()
-        .addEntityClass(Person.class)
-        .build();
+    public DAOTestExtension daoTestRule = DAOTestExtension.newBuilder()
+            .addEntityClass(Person.class)
+            .build();
 
     private PersonDAO personDAO;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         personDAO = new PersonDAO(daoTestRule.getSessionFactory());
     }
@@ -48,8 +51,10 @@ public class PersonDAOTest {
         assertThat(persons).extracting("jobTitle").containsOnly("The plumber", "The cook", "The watchman");
     }
 
-    @Test(expected = ConstraintViolationException.class)
+    @Test
     public void handlesNullFullName() {
-        daoTestRule.inTransaction(() -> personDAO.create(new Person(null, "The null")));
+        Assertions.assertThrows(ConstraintViolationException.class, () -> {
+            daoTestRule.inTransaction(() -> personDAO.create(new Person(null, "The null")));
+        });
     }
 }
