@@ -1,0 +1,27 @@
+plugins {
+    id 'java'
+    id 'org.hidetake.swagger.generator' version '2.18.1'
+}
+
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    swaggerCodegen 'org.openapitools:openapi-generator-cli:3.3.4'
+    swaggerUI 'org.webjars:swagger-ui:3.10.0'
+}
+
+swaggerSources {
+    helloworld {
+        inputFile = file('src/main/swagger/spec.yaml')
+        code {
+            language = 'jaxrs-spec'
+            dependsOn validation
+        }
+    }
+}
